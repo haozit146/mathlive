@@ -4127,11 +4127,11 @@ const COMMAND_MODE_CHARACTERS = /[a-zA-Z0-9!@*()-=+{}[\]\\';:?/.,~<>`|'$%#&^_" ]
 // (https://bugzilla.mozilla.org/show_bug.cgi?id=1361876). Booo...
 // See also https://stackoverflow.com/questions/26133593/using-regex-to-match-international-unicode-alphanumeric-characters-in-javascript
 const LETTER = typeof navigator !== 'undefined' &&
-    /firefox|edge|Trident/i.test(navigator.userAgent)
+    /firefox|edge|Trident|safari/i.test(navigator.userAgent)
     ? /[a-zA-ZаАбБвВгГдДеЕёЁжЖзЗиИйЙкКлЛмМнНоОпПрРсСтТуУфФхХцЦчЧшШщЩъЪыЫьЬэЭюЮяĄąĆćĘęŁłŃńÓóŚśŹźŻżàâäôéèëêïîçùûüÿæœÀÂÄÔÉÈËÊÏÎŸÇÙÛÜÆŒäöüßÄÖÜẞàèéìíîòóùúÀÈÉÌÍÎÒÓÙÚáéíñóúüÁÉÍÑÓÚÜ]/
     : new RegExp('\\p{Letter}', 'u');
 const LETTER_AND_DIGITS = typeof navigator !== 'undefined' &&
-    /firefox|edge|Trident/i.test(navigator.userAgent)
+    /firefox|edge|Trident|safari/i.test(navigator.userAgent)
     ? /[0-9a-zA-ZаАбБвВгГдДеЕёЁжЖзЗиИйЙкКлЛмМнНоОпПрРсСтТуУфФхХцЦчЧшШщЩъЪыЫьЬэЭюЮяĄąĆćĘęŁłŃńÓóŚśŹźŻżàâäôéèëêïîçùûüÿæœÀÂÄÔÉÈËÊÏÎŸÇÙÛÜÆŒäöüßÄÖÜẞàèéìíîòóùúÀÈÉÌÍÎÒÓÙÚáéíñóúüÁÉÍÑÓÚÜ]/
     : new RegExp('[0-9\\p{Letter}]', 'u');
 /**
@@ -21149,10 +21149,11 @@ function speak(mathfield, scope, speakOptions) {
     }
     return false;
 }
-function defaultSpeakHook(text, config = {}) {
+function defaultSpeakHook(text, config) {
     if (!config && window && window['mathlive']) {
         config = window['mathlive'].config;
     }
+    config = config !== null && config !== void 0 ? config : {};
     if (!config.speechEngine || config.speechEngine === 'local') {
         // On ChromeOS: chrome.accessibilityFeatures.spokenFeedback
         // See also https://developer.chrome.com/apps/tts

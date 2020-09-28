@@ -24,3 +24,4 @@ ehthumbs.db
 Thumbs.db
 #IDE files
 .idea
+yarn.lock
